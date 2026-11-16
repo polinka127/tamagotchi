@@ -1,195 +1,218 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Віртуальний вихованець — Річний проєкт на Python</title>
-    <meta name="description" content="Візитка річного проєкту учня 10 класу на тему «Віртуальний вихованець (Тамагочі)». Реалізація гри, телеграм-бота, сайту та застосунку на Python.">
-    <style>
-        :root {
-            --bg-color: #f8fafc;
-            --accent-color: #0f172a;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Віртуальний вихованець — Річний проєкт на Python</title>
+  <meta name="description" content="Візитка річного проєкту учня 10 класу на тему «Віртуальний вихованець». Гра, телеграм-бот, сайт та застосунок на Python.">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      background-color: #dbeafe;
+      color: #0f172a;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      padding: 30px 15px;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--accent-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            padding: 2rem 1rem;
-        }
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    /* Головна синя шапка */
+    .header {
+      background-color: #1e3a8a;
+      background-image: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #ffffff;
+      padding: 40px 35px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 25px rgba(30, 58, 138, 0.25);
+    }
 
-        header {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 2rem;
-            margin-bottom: 2.5rem;
-        }
+    .badge {
+      display: inline-block;
+      background-color: #3b82f6;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+      border: 1px solid #93c5fd;
+    }
 
-        .badge {
-            display: inline-block;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            border: 1.5px solid var(--accent-color);
-            padding: 0.25rem 0.75rem;
-            margin-bottom: 1rem;
-        }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
 
-        h1 {
-            font-size: 2.25rem;
-            line-height: 1.2;
-            margin-bottom: 1.25rem;
-            letter-spacing: -0.02em;
-        }
+    .description {
+      font-size: 17px;
+      color: #e0f2fe;
+      max-width: 700px;
+    }
 
-        .description {
-            font-size: 1.1rem;
-            max-width: 68ch;
-        }
+    /* Сітка для 4 карток */
+    .cards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
+    .card {
+      background-color: #ffffff;
+      border: 2px solid #93c5fd;
+      border-top: 6px solid #2563eb;
+      border-radius: 16px;
+      padding: 25px;
+      width: calc(50% - 10px);
+      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
+    }
 
-        .card {
-            border: 2px solid var(--accent-color);
-            padding: 1.75rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    .card:hover {
+      border-color: #1d4ed8;
+      background-color: #f8fafc;
+    }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--accent-color);
-            padding-bottom: 0.75rem;
-        }
+    .card-top {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
 
-        .card-icon {
-            width: 24px;
-            height: 24px;
-            stroke: var(--accent-color);
-            fill: none;
-            stroke-width: 2;
-            flex-shrink: 0;
-        }
+    .icon-circle {
+      width: 42px;
+      height: 42px;
+      background-color: #dbeafe;
+      color: #1d4ed8;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-right: 12px;
+    }
 
-        h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
+    h2 {
+      font-size: 22px;
+      color: #1e3a8a;
+    }
 
-        .card p {
-            font-size: 1rem;
-        }
+    .card p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 18px;
+    }
 
-        footer {
-            border-top: 1px solid var(--accent-color);
-            padding-top: 1.5rem;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+    .tech-tag {
+      display: inline-block;
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.75rem;
-            }
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    /* Нижній блок */
+    .footer {
+      background-color: #ffffff;
+      border: 2px solid #93c5fd;
+      border-radius: 14px;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .footer strong {
+      color: #1e3a8a;
+    }
+
+    /* Адаптація під телефон */
+    @media (max-width: 650px) {
+      .card {
+        width: 100%;
+      }
+      h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <span class="badge">Річний проєкт · 10 клас · Python</span>
-            <h1>Віртуальний вихованець (Тамагочі)</h1>
-            <p class="description">
-                Цей проєкт присвячений створенню екосистеми програмних рішень для взаємодії з цифровим улюбленцем на мові Python. Концепція дозволяє поєднати ігрову механіку, автоматизацію сповіщень, веб-візуалізацію та настільні інтерфейси в межах однієї спільної ідеї. Робота над темою допомагає закріпити базові навички програмування та опанувати різні інструменти розробки без використання персональних даних реальних людей.
-            </p>
-        </header>
 
-        <main class="grid">
-            <article class="card">
-                <div>
-                    <div class="card-header">
-                        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
-                            <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-                            <path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"></path>
-                        </svg>
-                        <h2>Гра</h2>
-                    </div>
-                    <p>Симулятор догляду за піксельним улюбленцем, де гравцеві потрібно стежити за його рівнем ситості, здоров'ям та настроєм.</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <div>
-                    <div class="card-header">
-                        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                        </svg>
-                        <h2>Бот</h2>
-                    </div>
-                    <p>Телеграм-помічник, який надсилає нагадування погодувати віртуальну тварину та дозволяє взаємодіяти з нею через кнопки.</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <div>
-                    <div class="card-header">
-                        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="2" y1="12" x2="22" y2="12"></line>
-                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                        </svg>
-                        <h2>Сайт</h2>
-                    </div>
-                    <p>Інтерактивна вітрина з галереєю видів вихованців, описом їхніх характеристик та базовими порадами щодо догляду.</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <div>
-                    <div class="card-header">
-                        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                        <h2>Застосунок</h2>
-                    </div>
-                    <p>Десктопний трекер стану улюбленця з компактним віджетом для відображення основних показників на робочому столі.</p>
-                </div>
-            </article>
-        </main>
-
-        <footer>
-            <span>План розробки: Гра · Бот · Сайт · Застосунок</span>
-            <span>Палітра: #f8fafc / #0f172a</span>
-        </footer>
+  <div class="container">
+    <div class="header">
+      <div class="badge">Річний проєкт · 10 клас · Python</div>
+      <h1>Віртуальний вихованець (Тамагочі)</h1>
+      <p class="description">
+        Цей проєкт присвячений створенню екосистеми програмних рішень для взаємодії з цифровим улюбленцем на мові Python. Концепція дозволяє поєднати ігрову механіку, автоматизацію сповіщень, веб-візуалізацію та настільні інтерфейси в межах однієї спільної ідеї. Робота над темою допомагає закріпити базові навички програмування та опанувати різні інструменти розробки без використання персональних даних реальних людей.
+      </p>
     </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-top">
+          <div class="icon-circle">01</div>
+          <h2>Гра</h2>
+        </div>
+        <p>Симулятор догляду за піксельним улюбленцем, де гравцеві потрібно стежити за його рівнем ситості, здоров'ям та настроєм.</p>
+        <div class="tech-tag">2D-симуляція · Pygame</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="icon-circle">02</div>
+          <h2>Бот</h2>
+        </div>
+        <p>Телеграм-помічник, який надсилає нагадування погодувати віртуальну тварину та дозволяє взаємодіяти з нею через кнопки.</p>
+        <div class="tech-tag">Сповіщення · Telegram API</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="icon-circle">03</div>
+          <h2>Сайт</h2>
+        </div>
+        <p>Інтерактивна вітрина з галереєю видів вихованців, описом їхніх характеристик та базовими порадами щодо догляду.</p>
+        <div class="tech-tag">Веб-вітрина · HTML / CSS</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="icon-circle">04</div>
+          <h2>Застосунок</h2>
+        </div>
+        <p>Десктопний трекер стану улюбленця з компактним віджетом для відображення основних показників на робочому столі.</p>
+        <div class="tech-tag">Десктоп GUI · Tkinter / PyQt</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Напрямки: <strong>Гра · Бот · Сайт · Застосунок</strong></div>
+      <div>Без збору особистих даних</div>
+    </div>
+  </div>
+
 </body>
 </html>
